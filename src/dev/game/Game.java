@@ -1,14 +1,9 @@
 package dev.game;
 
 import java.awt.*;
-import java.awt.event.*;
-import sun.awt.image.ToolkitImage;
 import java.awt.image.BufferStrategy;
 
-import static com.sun.java.accessibility.util.AWTEventMonitor.addKeyListener;
-
-
-public class Game implements Runnable, KeyListener{
+public class Game implements Runnable{
 
     private Display display;
     public int width, height;
@@ -18,45 +13,35 @@ public class Game implements Runnable, KeyListener{
     private Thread thread;
 
     private BufferStrategy bs;
-    private KeyManager keymanager;
     private Graphics g;
-
-    private Ship redship = new Ship(800,20);
-
-
-    boolean sp_pressed = false;
-    boolean lt_Pressed = false;
-    boolean rt_Pressed = false;
-    boolean up_Pressed = false;
-    boolean dn_Pressed = false;
 
     //States
     private State gameState;
     private State menuState;
-    private State settings;
+
+    //Input
+    private KeyManager keyManager;
 
     public Game(String title, int width, int height)
     {
         this.width = width;
         this.height=height;
         this.title = title;
+        keyManager = new KeyManager();
     }
 
     private void init()
     {
         display = new Display(title, width, height);
-        display.getFrame().addKeyListener(keymanager);
+        display.getFrame().addKeyListener(keyManager);
         gameState = new GameState(this);
         menuState = new GameState(this);
         State.setState(gameState);
-
-//        display.getFrame().addKeyListener(this);
-//        addKeyListener(this);
-
     }
-    int x=0;
+
     private void tick()
     {
+        keyManager.tick();
      if(State.getState() != null)
         {
             State.getState().tick();
@@ -79,76 +64,11 @@ public class Game implements Runnable, KeyListener{
         if(State.getState() != null){
             State.getState().render(g);
         }
-      /*
-        redship.drawShip(g);
-        if(redship.shooting)
-        {
-            if (redship.lasers.size() != 0)
-            {
-                    redship.lasers.get(redship.getLaserCount()).drawProjectile(g);
-                    redship.lasers.get(redship.getLaserCount()).translateProjectile();
-            }
-        }
-        */
 
-        //end Drawing
         bs.show();
         g.dispose();
     }
 
-    @Override
-    public void keyTyped(KeyEvent e)
-    {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e)
-    {
-        int code = e.getKeyCode();
-        switch(code)
-        {
-            case KeyEvent.VK_DOWN:
-                dn_Pressed = true;
-                break;
-            case KeyEvent.VK_UP:
-                up_Pressed = true;
-                break;
-            case KeyEvent.VK_RIGHT:
-                rt_Pressed = true;
-                break;
-            case KeyEvent.VK_LEFT:
-                lt_Pressed = true;
-                break;
-            case KeyEvent.VK_SPACE:
-                sp_pressed = true;
-                 break;
-        }
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e)
-    {
-        int code = e.getKeyCode();
-        switch(code)
-        {
-            case KeyEvent.VK_DOWN:
-                dn_Pressed = false;
-                break;
-            case KeyEvent.VK_UP:
-                up_Pressed = false;
-                break;
-            case KeyEvent.VK_RIGHT:
-                rt_Pressed = false;
-                break;
-            case KeyEvent.VK_LEFT:
-                lt_Pressed = false;
-                break;
-            case KeyEvent.VK_SPACE:
-                sp_pressed = false;
-                break;
-        }
-    }
     @Override
     public void run()
     {
@@ -160,6 +80,7 @@ public class Game implements Runnable, KeyListener{
         long lastTime = System.nanoTime();
         long timer = 0;
         int ticks =0;
+
         while(running)
         {
             now = System.nanoTime();
@@ -181,34 +102,15 @@ public class Game implements Runnable, KeyListener{
                 ticks = 0;
                 timer = 0;
             }
-//            if(sp_pressed)
-//            {
-//                redship.lasers.get(redship.getLaserCount()).updateCord();
-//                redship.shoot();
-//
-//            }
-//            if(lt_Pressed)
-//            {
-//                redship.moveForward(2);
-//            }
-//            if(rt_Pressed)
-//            {
-//                redship.moveBackward(2);
-//            }
-//            if(up_Pressed)
-//            {
-//                redship.moveUp(2);
-//            }
-//            if(dn_Pressed)
-//            {
-//                redship.moveDown(2);
-//            }
+
         }
         stop();
     }
 
 
-
+    public KeyManager getKeyManager() {
+        return keyManager;
+    }
 
     public synchronized void  start ()
     {
