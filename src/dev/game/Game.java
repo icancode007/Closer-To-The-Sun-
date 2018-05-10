@@ -3,10 +3,12 @@ package dev.game;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
-public class Game implements Runnable{
+public class Game implements Runnable
+{
 
     private Display display;
-    public int width, height;
+
+    private int width, height;
     public String title;
 
     private boolean running = false;
@@ -16,11 +18,15 @@ public class Game implements Runnable{
     private Graphics g;
 
     //States
-    private State gameState;
-    private State menuState;
+    public State gameState;
+    public State menuState;
 
     //Input
     private KeyManager keyManager;
+
+    private MouseManager mouseManager;
+    //Handler
+    private Handler handler;
 
     public Game(String title, int width, int height)
     {
@@ -28,15 +34,35 @@ public class Game implements Runnable{
         this.height=height;
         this.title = title;
         keyManager = new KeyManager();
+        mouseManager = new MouseManager();
+    }
+    public int getWidth()
+    {
+        return width;
     }
 
+    public int getHeight()
+    {
+        return height;
+    }
     private void init()
     {
         display = new Display(title, width, height);
+
         display.getFrame().addKeyListener(keyManager);
-        gameState = new GameState(this);
-        menuState = new GameState(this);
-        State.setState(gameState);
+
+        display.getFrame().addMouseListener(mouseManager);
+        display.getFrame().addMouseMotionListener(mouseManager);
+
+        display.getCanvas().addMouseListener(mouseManager);
+        display.getCanvas().addMouseMotionListener(mouseManager);
+
+        handler = new Handler(this);
+        gameState = new GameState(handler);
+        menuState = new MenuState(handler);
+
+        State.setState(menuState);
+
     }
 
     private void tick()
@@ -108,8 +134,12 @@ public class Game implements Runnable{
     }
 
 
-    public KeyManager getKeyManager() {
+    public KeyManager getKeyManager()
+    {
         return keyManager;
+    }
+    public MouseManager getMouseManager(){
+        return mouseManager;
     }
 
     public synchronized void  start ()

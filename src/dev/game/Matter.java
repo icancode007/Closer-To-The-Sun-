@@ -2,33 +2,36 @@ package dev.game;
 
 import java.awt.*;
 
-public abstract class Matter extends Entity {
+public abstract class Matter extends Entity
+{
 
     public static final int DEFAULT_ENERGY = 100;
     public static final float DEFAULT_SPEED = 5.0f;
     public static final int DEFAULT_WIDTH = 64;
     public static final int DEFAULT_HEIGHT = 64;
 
-
-
     protected  int energy;
     protected  float speed;
     protected float xMove,yMove;
 
-    public Matter(float x, float y, int width, int height) {
-        super(x, y, width,height);
+    public Matter(Handler handler, float x, float y, int width, int height)
+    {
+        super(handler, x, y, width,height);
         energy = DEFAULT_ENERGY;
         speed = DEFAULT_SPEED;
         xMove = 0;
         yMove = 0;
 
     }
-    public void move(){
+
+    public void move()
+    {
         x += xMove;
         y += yMove;
     }
 
-    public float getxMove() {
+    public float getxMove()
+    {
         return xMove;
     }
 

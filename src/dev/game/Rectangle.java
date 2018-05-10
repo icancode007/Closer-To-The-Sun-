@@ -3,7 +3,7 @@ package dev.game;
 import java.awt.*;
 
 public class Rectangle {
-    double posX,posY,dx,dy;
+    double posX,posY;
     int h,w;
 
     public Rectangle(double posX, double posY, int h, int w) {
@@ -18,14 +18,6 @@ public class Rectangle {
         g.drawRect((int)posX,(int)posY,this.w,this.h);
     }
 
-    public void rectSpeed(int x, int y){
-        this.dx = x;
-        this.dy = y;
-    }
-    public void move(){
-        this.posX += this.dx;
-        this.posY += this.dy;
-    }
 
     public double getPosX() {
         return posX;

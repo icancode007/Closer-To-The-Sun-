@@ -4,9 +4,11 @@ import java.awt.*;
 
 public class Animation {
     Image animations [];
+
     int delay;
     int duration;
     int current;
+
     public Animation(String file, int count, int duration)
     {
         animations = new Image[count];

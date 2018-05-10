@@ -10,17 +10,20 @@ public abstract class State {
 
     private static State currentState = null;
 
-    public static void setState(State state){
+    public static void setState(State state)
+    {
         currentState = state;
     }
-    public static State getState(){
+    public static State getState()
+    {
         return currentState;
     }
     //Class
-    protected Game game;
+    protected Handler handler;
 
-    public State(Game game){
-        this.game = game;
+    public State(Handler handler){
+
+        this.handler = handler;
     }
 
     public abstract void tick();
