@@ -20,6 +20,7 @@ public class Game implements Runnable
     //States
     public State gameState;
     public State menuState;
+    public State gameOverState;
 
     //Input
     private KeyManager keyManager;
@@ -58,8 +59,10 @@ public class Game implements Runnable
         display.getCanvas().addMouseMotionListener(mouseManager);
 
         handler = new Handler(this);
+        gameOverState = new GameOverState(handler);
         gameState = new GameState(handler);
         menuState = new MenuState(handler);
+
 
         State.setState(menuState);
 
@@ -124,7 +127,6 @@ public class Game implements Runnable
             }
             if(timer >= 1000000000)
             {
-                System.out.println("Ticks and Frames"+ ticks);
                 ticks = 0;
                 timer = 0;
             }

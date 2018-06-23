@@ -21,11 +21,12 @@ public class ButtonImage extends MenuObject{
     @Override
     public void render(Graphics g)
     {
-        g.drawImage(img,(int)x,(int)y,w,h,null);
-        if(this.hovering )
-            g.setColor(Color.ORANGE);
-            g.drawLine(hoverX1,hoverY1Y2,hoverX2,hoverY1Y2);
 
+            g.setColor(Color.ORANGE);
+            g.drawImage(img,(int)x,(int)y,w,h,null);
+            //        g.drawRect((int)layer.getX(),(int)layer.getY(),w,h);
+            if(this.hovering)
+                g.drawLine(hoverX1,hoverY1Y2,hoverX2,hoverY1Y2);
     }
 
     @Override

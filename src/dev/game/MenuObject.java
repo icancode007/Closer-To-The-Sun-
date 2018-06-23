@@ -11,7 +11,7 @@ public abstract class MenuObject {
 
     int w,h;
 
-    boolean hovering=false;
+    public boolean hovering=false;
 
     public MenuObject( double x, double y,int w, int h) {
         this.x = x;
@@ -26,11 +26,11 @@ public abstract class MenuObject {
     public abstract void onClick();
 
     public void onMouseMove(MouseEvent e){
-        if(layer.contains(e.getX(),e.getY())) {
-            hovering = true;
+        if(this.layer.contains(e.getX(),e.getY())) {
+            this.hovering = true;
         }
         else
-            hovering = false;
+            this.hovering = false;
     }
     public void onMouseReleased(MouseEvent e){
         if (hovering) onClick();

@@ -7,33 +7,27 @@ public class MenuState extends State
     private SpaceGround menuGround;
 
     private MenuManager menuManager;
-     ClickListener noClick = new ClickListener() {
-         @Override
-         public void onClick() {
 
-         }
-     };
-    ButtonImage menuHeader;
+    private Image logoHeader;
+
 
     public MenuState(Handler handler)
     {
         super(handler);
+
         menuManager = new MenuManager(handler);
         handler.getMouseManager().setMenuManager(menuManager);
 
         menuGround = new SpaceGround("./res/Artwork/Menu/menuground.png",0,0,handler);
 
-        menuHeader= new ButtonImage("./res/Artwork/Menu/menuHeader.png",420, 100,200,100,noClick);
-        menuHeader.noLineAtHover();
-
-
-        menuManager.addObj(menuHeader);
+        logoHeader = Toolkit.getDefaultToolkit().getImage("./res/Artwork/Menu/menuHeader.png");
 
         menuManager.addObj(new ButtonImage("./res/Artwork/Menu/PlayButton.png", 420, 200,175,90, new ClickListener() {
             @Override
             public void onClick()
             {
                 State.setState(handler.getGame().gameState);
+
             }
         }));
 
@@ -58,17 +52,15 @@ public class MenuState extends State
     @Override
     public void tick()
     {
-//        if(handler.getMouseManager().isLeftPresed()&& handler.getMouseManager().isRightPressed()){
-//            State.setState(handler.getGame().gameState);
-//        }
         menuManager.tick();
+
     }
 
     @Override
     public void render(Graphics g)
     {
         menuGround.render(g);
-
+        g.drawImage(logoHeader,420, 100,200,100,null);
         menuManager.render(g);
     }
 }
